@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% if error_msgs %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">
+            {% trans "Something went wrong..." %}
+        </h4>
+        {% for error in error_msgs %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <p>
+        {% trans "Please contact the IGL at david.ampudia@nesta.org.uk and give them the error message above." %}
+    </p>
+{% endif %}

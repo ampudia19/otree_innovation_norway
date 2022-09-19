@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Study Error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap4/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'otree/css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'otree/css/ml_in.css' %}">
+</head>
+
+<body>
+<div class="otree-body container">
+    <h2 class="otree-title page-header">Study Error</h2>
+    {% include 'global/includes/error.html' %}
+    {% include 'global/includes/footer.html' %}
+</div>
+</body>
+</html>

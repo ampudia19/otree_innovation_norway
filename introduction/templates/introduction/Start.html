@@ -1,0 +1,18 @@
+{% extends "survey_extras/SurveyPage.html" %}
+{% load otree static survey_extras i18n %}
+
+{% block title %}
+	{% trans "Welcome" %}
+	<br>
+{% endblock %}
+
+{% block survey_content %}
+	<p>
+		{% blocktrans trimmed %}
+            Welcome to this internal Innovasjon Norge study. Please click Next to begin.
+			<br>
+			<br>
+		{% endblocktrans %}
+	</p>
+    {% include 'global/includes/error.html' %}
+{% endblock %}

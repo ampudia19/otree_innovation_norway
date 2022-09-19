@@ -1,0 +1,26 @@
+{% extends "survey_extras/SurveyPage.html" %}
+{% load otree static survey_extras i18n %}
+
+{% block title %}
+	{% trans "Instructions" %}
+{% endblock %}
+
+{% block survey_content %}
+
+	<p>
+		{% blocktrans trimmed %}You will participate in a shadow experiment evaluating past funding proposals to learn how algorithms might be of assistance in making assessments. {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}We expect this exercise to last about four hours, divided in {{ num_proposals }} instances of 30 minutes each. Each instance represents the evaluation of one case.{% endblocktrans %} 
+	</p>
+	<p>
+		{% blocktrans trimmed %}Please answer all questions truthfully, and score funding proposals in a realistic manner.{% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}If you have any questions or problems you can contact the Innovation Growth Lab by email via david.ampudia@nesta.org.uk. {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}You can pause and resume the study at any point between proposals. A pause of two minutes between proposals is suggested. {% endblocktrans %}
+	</p>
+
+{% endblock %}

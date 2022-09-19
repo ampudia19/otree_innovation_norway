@@ -1,0 +1,99 @@
+{% extends "survey_extras/SurveyPage.html" %}
+{% load otree static survey_extras i18n %}
+
+{% block title %}
+	{% trans "Consent" %}
+{% endblock %}
+
+{% block survey_content %}
+	<p>
+		{% blocktrans trimmed %}
+    		<u>INTERNAL RESEARCH PROJECT:</u> AI-enhanced decision making in funding at Innovasjon Norge
+    		{% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+			<u>PROJECT MEMBERS:</u> Kristian Bysheim (Innovasjon Norge), Sara Garcia Arteagoitia (Innovation Growth Lab), David Ampudia Vicente (Innovation Growth Lab)
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+    		<strong>PART 1. Information sheet</strong>
+    		{% endblocktrans %}
+	</p>
+
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Purpose:</strong> The purpose of this study is to better understand how the introduction of Machine Learning tools may impact the assessment of start-up funding proposals.		
+        {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Voluntary Participation:</strong> Participation in the experiment is completely voluntary. You can indicate if you want your answers to be discarded at any point before the end of the survey in which case all information you provided will be deleted.
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Confidentiality:</strong> Participation in the study is internally disclosed. The experiment outputs will be anonymous.
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Procedures: </strong> You will be asked to evaluate a series of cases over the span of four hours. You are encouraged to take small breaks between cases, but each case should be completed in 30 minutes.
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Foreseeable Risks: </strong> There are no foreseeable risks of participating in this survey.
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Potential re-use of the data:</strong> Data collected in this survey will be exclusively used for internal purposes. 
+	    {% endblocktrans %}
+	</p>
+	<p>
+		{% blocktrans trimmed %}
+		    <strong>Data Protection:</strong> In accordance with the General Data Protection Regulation (GDPR) 2016/679 (EU), we provide the following information:
+	    {% endblocktrans %}
+	</p>
+	<ul>
+	    <li style="margin-top:5px">
+	    	{% blocktrans trimmed %} <!-- [DAV] missing -->
+		        <em>Data controller:</em> Full address. Contact email.
+	        {% endblocktrans %}
+	    </li>
+	    <li style="margin-top:5px">
+	    	{% blocktrans trimmed %}
+	        	<em>Purposes of the processing:</em> carrying out the above-mentioned internal project. 
+	        {% endblocktrans %}
+	    </li>
+	    <li style="margin-top:5px">
+	    	{% blocktrans trimmed %}
+	        	<em>Legal basis:</em> data owner’s consent. You can withdraw your consent at any time.
+	        {% endblocktrans %}
+	    </li>
+	    <li style="margin-top:5px">
+	    	{% blocktrans trimmed %}
+	        	<em>Recipients:</em> your personal data will be processed by Innovasjon Norge and the Innovation Growth Lab. It will not be transferred to third parties without your consent, except otherwise provided by law.
+	        {% endblocktrans %}
+	    </li>
+	    <li style="margin-top:5px">
+	    	{% blocktrans trimmed %}
+	        	<em>Rights:</em> access, rectification, or erasure of your personal data, as well as data portability and the restriction or objection to the processing of your personal data. You have the right to lodge a complaint with the Norwegian Data Protection Authority if you think we have not properly managed your rights.
+	        {% endblocktrans %}
+	    </li>
+	</ul>
+
+	<p>
+		{% blocktrans trimmed %}
+	    <strong>PART 2. Informed Consent</strong>
+	    {% endblocktrans %}
+	</p>
+
+    {% for field in form %}
+        <p>
+            {% formfield field %}
+        </p>
+    {% endfor %}
+{% endblock %}

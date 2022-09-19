@@ -1,0 +1,40 @@
+{% extends "survey_extras/WaitPage.html" %}
+{% load otree static survey_extras i18n %}
+
+{% block scripts %}
+
+<script src="{% static 'assessment/js/scripts.js' %}"></script>
+
+{% endblock %}
+
+
+{% block title %}
+	{% trans "Wait Room" %}
+{% endblock %}
+
+{% block survey_content %}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+    <p>You have successfully submitted your scores.</p>
+    <p>Please wait an additional <b id="wait"></b> <b>seconds</b> for the next application to be made available for you.</p>
+
+    {% formfields %}
+
+    
+    <script src="{% static 'assessment/js/break_timer.js' %}"></script>
+    <script>
+
+
+       window.onload = function () {
+            setTimeout(function(){document.querySelector("#Next").style.visibility = "visible";}, 1000 * 2);
+       }
+    </script>
+
+{% endblock %}
+
+{% next_button %}

@@ -1,0 +1,1114 @@
+{% extends "survey_extras/AssessmentPage.html" %}
+{% load otree static survey_extras i18n %}
+
+{% block scripts %}
+
+<script src="{% static 'assessment/js/scripts.js' %}"></script>
+
+{% endblock %}
+
+{% block title %}
+	{% trans "Case Assessment" %}
+{% endblock %}
+
+{% block survey_content %}
+
+<style>
+	/* Overwrite the otree timer in global */
+	.otree-timer {
+        position: fixed;
+        right: 0;
+		bottom: 0;
+    }
+</style>
+
+<script src="{% static 'assessment/js/scripts.js' %}"></script>
+
+<!--------- Timer --------->
+<div id="app"></div>
+<script src="{% static 'assessment/js/timer.js' %}"></script>
+
+<!-- Tab navigation -->
+<ul class="nav nav-tabs fixed-top navbar-light bg-light justify-content-center" id="myTab" role="tablist">
+	<li class="nav-item">
+	  <a class="nav-link active" id="part1-tab" data-toggle="tab" href="#part1" role="tab" aria-controls="part1" onclick="topFunction()"> Application</a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" id="part2-tab" data-toggle="tab" href="#part2" role="tab" aria-controls="part2" onclick="topFunction()">Account</a>
+	</li>
+	{% if round_show_treatment >= 1 %}
+		<li class="nav-item">
+			<a class="nav-link" id="ML-tab" data-toggle="tab" href="#ML" role="tab" aria-controls="ML" onclick="topFunction()">Analysis</a>
+	  	</li>
+	{% endif %}
+	<li class="nav-item">
+		<a class="nav-link" id="part3-tab" data-toggle="tab" href="#part3" role="tab" aria-controls="part3" onclick="topFunction()">Consideration</a>
+	</li>
+</ul>
+<br>
+<br>
+
+
+  <!-- Tab content -->
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane show active" id="part1" role="tabpanel" aria-labelledby="part1-tab">
+  		<div class="container top-header fixed-top" style="margin-top:40px">
+			<div class="row align-items-center">
+				<div class="col text-center"> 
+					<h3 class="card-title font-weight-bold text-left mt-3 ml-5"> Application </h3> 
+				</div>
+				<div class="col text-right mt-3">
+					<nav>
+					<ul>
+						<div class="dropdown">
+						<span>Jump to section on the page</span>
+						<div class="dropdown-content">
+							<ul style="padding-left: 25px">
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Forretninsidé</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Nyhetsverdi</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Markedspotensiale</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Plan-og-budsjett</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Prosjektteam</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Vilkår</a></li>
+							<li class="no-bullets text-left"><a href="" class="functionforscroll">Attachments</a></li>
+							</ul>
+						</div>
+						</div>          
+					</ul>
+					</nav>
+				</div>
+		</div>
+		</div>
+
+  		<br>
+		
+		<!--------- Forretninsidé --------->
+
+		<a id="Forretninsidé"></a>
+		<p> <h3 style="font-weight:bold">Forretninsidé</h3> </p>
+		
+		<div>
+			<p class="toprow">Hva er deres forretningsidé?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_idea }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Beskriv problement som skal løses, når problemet oppstår og deres løsning på problemet</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_prob }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Last opp vedlegg som beskriver foreløpig løsningsforslag</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_att }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvem er kundene deres?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_customers }} </p>
+		</div>
+		<hr class="hline">
+
+		<!--------- Nyhetsverdi --------->
+
+		<a id="Nyhetsverdi"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Nyhetsverdi</h3> </p>
+
+		<div>
+			<p class="toprow">Hva gjør dere unike og annerledes?</p>
+			<ul>
+				<li>
+					<input type="checkbox" name="unique1" onclick="return false;" style="margin:10px">Løsningen dekker et eksisterende behov i markedet på en ny eller bedre måte</li>
+				</li>
+				<li>
+					<input type="checkbox" name="unique2" onclick="return false;" style="margin:10px">Løsningen dekker et nytt behov i markedet som ikke er dekket fra før</li>
+				</li>
+				<li>
+					<input type="checkbox" name="unique3" onclick="return false;" style="margin:10px">Løsningen skaper nytt behov i markedet</li>
+				</li>
+			</ul>
+		</div>
+		<script>
+			check_boxes(checked=true, array_input={{ app_info_unique|json }})
+		</script>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvem er konkurrentene?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_competitors }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Forklar med egne ord hva som er annerledes og nytt ved løsningen deres.</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_difference }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvordan har dere sjekket hvor unik idéen deres er?</p>
+			<ul>
+				<li>	
+					<input type="checkbox" name="findout1" onclick="return false;" style="margin:10px">Søk på internett (f.eks Google)</li>
+				</li>
+				<li>
+					<input type="checkbox" name="findout2" onclick="return false;" style="margin:10px">Kundeintervju</li>
+				</li>
+				<li>
+					<input type="checkbox" name="findout3" onclick="return false;" style="margin:10px">Patentstyret</li>
+				</li>
+				<li>
+					<input type="checkbox" name="findout4" onclick="return false;" style="margin:10px">Søk i patentbase</li>
+				</li>
+				<li>
+					<input type="checkbox" name="findout5" onclick="return false;" style="margin:10px">IPR-rådgiver eller Innovasjon Norges spesialrådgiver</li>
+				</li>
+				<li>
+					<input type="checkbox" name="findout6" onclick="return false;" style="margin:10px">Annen metode</li>
+				</li>
+			</ul>
+		</div>
+		<script>
+			check_boxes(checked=true, array_input={{ app_info_findout|json }})
+		</script>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hva har dere undersøkt og på hvilken måte?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_research }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Har dere vært i kontakt med Innovasjon Norge før? Beskriv kort.</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_contact }} </p>
+		</div>
+		<hr class="hline">
+
+		<!--------- Markedspotensiale --------->
+
+		<a id="Markedspotensiale"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Markedspotensiale</h3> </p>
+
+		<div>
+			<p class="toprow">Hvor stort kan dette bli?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_big }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvor finnes det et marked for løsningen?</p>
+			<ul>
+				<li>
+					<input type="checkbox" name="int11" onclick="return false;" style="margin:10px">Nasjonalt</li>
+				</li>
+				<li>
+					<input type="checkbox" name="int12" onclick="return false;" style="margin:10px">Internasjonalt</li>
+				</li>
+			</ul>
+		</div>
+		<script>
+			check_boxes(checked=true, array_input={{ app_info_intl|json }})
+		</script>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvilke ambisjoner har dere som eiere av dette prosjektet?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_amb }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Er deres forretningsmodell skalerbar? Beskriv hvordan.</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_scal }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvor mange kunder har dere snakket med? Hvem var disse og hav lærte dere?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_numcust }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvem kan hjelpe dere med å realisere dette prosjektet og hvordan har dere knyttet til dere disse samarbeidspartnerne?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_help }} </p>
+		</div>
+		<hr class="hline">
+
+		<!--------- Plan-og-budsjett --------->
+
+		<a id="Plan-og-budsjett"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Plan-og-budsjett</h3> </p>
+
+		<div>
+			<p class="toprow">Navn på prosjekt</p>
+			<p style="margin-left: 40px"> {{ app_info_name }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hva er det overordnede målet for denne fasen av prosjektet og hva ønsker dere svar på i markedsavklaringen?</p>
+			<p style="margin-left: 40px"> {{ app_info_markstat }} </p>
+		</div>
+		<hr class="hline">
+		
+		<div>
+			<p class="toprow">Angi estimert sluttdato for denne prosjektfasen</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_date }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Es prosjektet påbegynt?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_status }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Er finansiering fra Innovasjon Norge avgjørende for prosjektet?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_need }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvordan skal dere oppnå markedsaksept?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_acceptance }} </p>
+		</div>
+		<hr class="hline">
+		<div>
+			<p class="toprow">Budsjett</p>
+			<table style="width: 850px; margin-left: 60px">
+				<tr style="border-bottom: 1px solid rgba(100,100,100);">
+				<td><b>Kostnadsart</b></td>
+				<td><b>Bødop i kroner</b></td>
+				</tr>
+				
+				<tr style="border-bottom: 1px solid rgba(222,222,222);">
+				<td>Brukerstudie</td>
+				<td>{{ app_info_bruker }}</td>
+				</tr>
+			
+				<tr style="border-bottom: 1px solid rgba(222,222,222);">
+				<td>Utvikle</td>
+				<td>{{ app_info_utvik }}</td>
+				</tr>
+			
+				<tr style="border-bottom: 1px solid rgba(222,222,222);">
+				<td>Nettversksbygging</td>
+				<td>{{ app_info_nett }}</td>
+				</tr>
+			
+				<tr style="border-bottom: 1px solid rgba(100,100,100);">
+				<td>Kompetanse</td>
+				<td>{{ app_info_komp }}</td>
+				</tr>
+			
+				<tr style="border-bottom: 1px solid rgba(100,100,100);">
+				<td><b>Sum</b></td>
+				<td><b>{{ app_info_sum }}</b></td>
+				</tr>
+			</table> 
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Kommenter og spesifiser hovedkostnadene i budsjettet</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_combud }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Gi en oversikt over egeninnsats og finansiering i denne prosjektfasen.</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_equity }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Hvordan tenker dere å finansiere bedriften frem til dere for inntjening?</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_finance }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Kontonummer for utbetaling</p>
+			<p class="bottomrow" style="min-height: 75px"> {{ app_info_accnum }} </p>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Last opp vedlegg som er relevante for deres prosjekt som for eksempel forretningsmodell, pitch eller lignende</p>
+				<table class="center-table" style="width: 850px">
+					<tr style="border-bottom: 1px solid rgba(100,100,100);">
+						<td><b>Name</b></td>
+						<td style="text-align: center"><b>URL</b></td>
+					</tr>
+					{% for name, item in app_info_pitch %}
+						<tr style="border-bottom: 1px solid rgba(222,222,222);">
+							<td>{{ name }}</td>
+							<td style="text-align: center"><a href="{% static item %}" target="_blank">Open</a></td>
+						</tr>
+					{% endfor %}
+					</table>
+		</div>
+		<hr class="hline">
+
+		<!-------- Prosjektteam --------->
+
+		<a id="Prosjektteam"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Prosjektteam</h3> </p>
+		
+		<div>
+			<p class="toprow">Hvem eier selskapet? Beskriv hvem som er med i teamet og hvilken rolle, kompetanse og erfaring vedkommende har.</p>
+				<table class="center-table" style="width: 850px">
+					<tr style="border-bottom: 1px solid rgba(100,100,100);">
+						<td><b>Name</b></td>
+						<td><b>Rolle</b></td>
+						<td><b>Mobile</b></td>
+						<td><b>Om</b></td>
+						<td style="text-align: center"><b>URL</b></td>
+					</tr>
+					{% for name, rolle, mobile, om, url in app_info_indivs %}
+						<tr style="border-bottom: 1px solid rgba(222,222,222);">
+							<td>{{ name }}</td>
+							<td>{{ rolle }}</td>
+							<td>{{ mobile }}</td>
+							<td>{{ om }}</td>
+							<td style="text-align: center"><a href="{{ url }}" target="_blank">Link</a></td>
+						</tr>
+					{% endfor %}
+				</table>
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p class="toprow">Prosjektets eller bedriftens nettside</p>
+			<a class="bottomrow" style="min-height: 75px" href="{{ app_info_website }}" target="_blank"> {{ app_info_website }} </a>
+		</div>
+		<hr class="hline">
+
+		<!-------- Vilkår --------->
+
+		<a id="Vilkår"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Vilkår</h3> </p>
+				
+		<div>
+			<ul>
+				<li>
+					<input type="checkbox" name="vilkar1" onclick="return false;" style="margin:10px">Jeg bekrefter at kontonummer er korrekt og tilhorer søker</li>
+				</li>
+				<li>
+					<input type="checkbox" name="vilkar2" onclick="return false;" style="margin:10px; margin-top:40px">Jeg bekretter at opplysningene i søknaden er korrekte og gir et uttyllende bilde av prosjektet</li>
+				</li>
+			</ul>
+		</div>
+		<script>
+			check_boxes(checked=true, array_input={{ app_info_confirm|json }})
+		</script>
+		<hr class="hline">
+
+		<!-------- Attachments --------->
+
+		<a id="Attachments"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Attachments</h3> </p>
+				
+		<div>
+				<table class="center-table" style="width: 850px">
+					<tr style="border-bottom: 1px solid rgba(100,100,100);">
+						<td><b>Filer/handling</b></td>
+						<td><b>Dato</b></td>
+						<td><b>type</b></td>
+						<td></td>
+					</tr>
+					{% for file, date, type, url in app_info_attachments %}
+						<tr style="border-bottom: 1px solid rgba(222,222,222);">
+							<td>{{ file }}</td>
+							<td>{{ date }}</td>
+							<td>{{ type }}</td>
+							<td style="text-align: right"><a href="{% static url %}" target="_blank">Åpne</a></td>
+						</tr>
+					{% endfor %}
+				</table>
+		</div>
+		<hr class="hline">
+
+
+
+
+	</div>
+
+
+	<div class="tab-pane" id="part2" role="tabpanel" aria-labelledby="part2-tab">
+		<div class="container top-header fixed-top" style="margin-top:40px">
+		  <div class="row align-items-center">
+			  <div class="col text-center"> 
+				  <h3 class="card-title font-weight-bold text-left mt-3 ml-5"> Account 
+			  </h3> 
+			  </div>
+			  <div class="col text-right mt-3">
+				<nav>
+				<ul>
+					<div class="dropdown">
+					<span>Jump to section on the page</span>
+					<div class="dropdown-content">
+						<ul style="padding-left: 25px">
+						<li class="no-bullets text-left"><a href="" class="functionforscroll">Financial-information</a></li>
+						<li class="no-bullets text-left"><a href="" class="functionforscroll">{{ app_acc_compname }}</a></li>
+						<li class="no-bullets text-left"><a href="" class="functionforscroll">Ownership-structure</a></li>
+						<li class="no-bullets text-left"><a href="" class="functionforscroll">Engagements</a></li>
+						</ul>
+					</div>
+					</div>          
+				</ul>
+				</nav>
+			</div>
+  		  </div>
+	  </div>
+
+		<br>
+
+		<!--------- Financial information --------->
+
+		<a id="Financial-information"></a>
+		<p> <h3 style="font-weight:bold">Financial information</h3> </p>
+		
+		<div>
+			<p class="toprow">Info is missing here</p>
+			<p class="bottomrow" style="min-height: 75px">This is probably relevant..</p>
+		</div>
+		<hr class="hline">
+
+		<!--------- Company --------->
+
+		<a id="{{ app_acc_compname }}"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">{{ app_acc_compname }}</h3> </p>
+
+		<div class="fixed-right" style="width: 600px; padding:20px; margin-left: auto; margin-right: auto; background: #F6F6F6">
+			<table>
+				<tr>
+					<td style="padding-right: 25px">
+						<img style="display: inline; width:75px; height:75px;" src="{% static app_acc_img %}">
+					</td>
+					<td>
+						<table style="width: 600px">
+							<tr>
+								<td style="text-align: left">
+									{{ app_acc_title }}
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left">
+									{{ app_acc_name }}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="fixed-right" style="width: 600px; padding:20px; margin-left: auto; margin-right: auto;">
+			<table>
+				<tr>
+				<td style="width: 300px; text-align: left"><b>Telefon</b></td>
+				<td style="width: 300px; text-align: left"><b>E-postadresse</b></td>
+				</tr>
+				
+				<tr>
+				<td style="width: 300px; text-align: left">{{ app_acc_tel }}</td>
+				<td style="width: 300px; text-align: left">{{ app_acc_mail }}</td>
+				</tr>
+			</table> 
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p> <h4 style="margin-left:40px; font-weight:bold">Foretaksinformasjon</h4> </p>
+		</div>
+
+		<div class="fixed-right" style="width: 800px; padding:20px; margin-left: auto; margin-right: auto;">
+			<table style="border-collapse: collapse;">
+				<tr>
+				<td style="width: 400px; text-align: left"><b>Organisastjonsnummer</b></td>
+				<td style="width: 400px; text-align: left"><b>Sektorkode</b></td>
+				</tr>
+				
+				<tr>
+					<td style="width: 400px; text-align: left">
+						<table>
+							<tr>
+							<td style="text-align: left">{{ app_acc_num }}</td>
+							<td style="text-align: left; padding-left: 25px"><a class="external-link" href="{{ app_acc_bisnode }}" target="_blank">Bisnode &#128279;</a></td>
+							</tr>
+						</table> 
+					</td>
+					<td style="width: 400px; text-align: left">{{ app_acc_sectcode }}</td>
+				</tr>
+
+				<tr>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Navn/foretaksnavn</b></td>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Stiftelsesdato</b></td>
+				</tr>
+					
+				<tr>
+					<td style="width: 400px; text-align: left">{{ app_acc_compname }}</td>
+					<td style="width: 400px; text-align: left">{{ app_acc_incorp }}</td>
+				</tr>
+
+				<tr>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Organisasjonsform</b></td>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Antall ansatte</b></td>
+				</tr>
+					
+				<tr>
+					<td style="width: 400px; text-align: left">{{ app_acc_comptype }}</td>
+					<td style="width: 400px; text-align: left">{{ app_acc_employ }}</td>
+				</tr>
+
+				<tr>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Næringskode(r)</b></td>
+					<td style="padding-top: 35px; width: 400px; text-align: left"><b>Kundeansvarlig</b></td>
+				</tr>
+					
+				<tr>
+					<td style="width: 400px; text-align: left">{{ app_acc_commcode }}</td>
+					<td style="width: 400px; text-align: left">{{ app_acc_custmanag }}</td>
+				</tr>
+			</table> 
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p> <h4 style="margin-left:40px; font-weight:bold">Besøksadresse</h4> </p>
+		</div>
+
+		<div class="fixed-right" style="width: 800px; padding:20px; margin-left: auto; margin-right: auto;">
+			<table style="border-collapse: collapse;">
+				<tr>
+					<td style="width: 400px; text-align: left"><b>Adresse</b></td>
+					<td style="width: 400px; text-align: left"></td>
+				</tr>
+				
+				<tr>
+					<td style="width: 400px; text-align: left">{{ app_acc_besokaddress }}</td>
+					<td style="text-align: left"><a class="external-link" href="{{ app_acc_besokmap }}" target="_blank">Google Maps &#128279;</a></td>
+				</tr>
+
+				<tr>
+					<td style="padding-top: 35px; width: 400px; text-align: left">
+						<table>
+							<tr>
+								<td style="width: 200px; text-align: left"><b>Municipality</b></td>
+								<td style="width: 200px; text-align: left"><b>County</b></td>
+							</tr>
+							<tr>
+								<td style="width: 200px; text-align: left">{{ app_acc_besokmunic }}</td>
+								<td style="width: 200px; text-align: left">{{ app_acc_besokcount }}</td>
+							</tr>
+						</table> 
+					</td>
+					<td style="padding-top: 35px; text-align: left; padding-left: 25px"></td>
+				</tr>
+			</table> 
+		</div>
+		<hr class="hline">
+
+		<div>
+			<p> <h4 style="margin-left:40px; font-weight:bold">Postadresse</h4> </p>
+		</div>
+
+		<div class="fixed-right" style="width: 800px; padding:20px; margin-left: auto; margin-right: auto;">
+			<table style="border-collapse: collapse;">
+				<tr>
+					<td style="width: 400px; text-align: left"><b>Adresse</b></td>
+					<td style="width: 400px; text-align: left"></td>
+				</tr>
+				
+				<tr>
+					<td style="width: 400px; text-align: left">{{ app_acc_postaddress }}</td>
+					<td style="text-align: left"><a class="external-link" href="{{ app_acc_postmap }}" target="_blank">Google Maps &#128279;</a></td>
+				</tr>
+
+				<tr>
+					<td style="padding-top: 35px; width: 400px; text-align: left">
+						<table>
+							<tr>
+								<td style="width: 200px; text-align: left"><b>Municipality</b></td>
+								<td style="width: 200px; text-align: left"><b>County</b></td>
+							</tr>
+							<tr>
+								<td style="width: 200px; text-align: left">{{ app_acc_postmunic }}</td>
+								<td style="width: 200px; text-align: left">{{ app_acc_postcount }}</td>
+							</tr>
+						</table> 
+					</td>
+					<td style="padding-top: 35px; text-align: left; padding-left: 25px"></td>
+				</tr>
+			</table> 
+		</div>
+		<hr class="hline">
+
+		<!--------- Ownership structure --------->
+
+		<a id="Ownership-structure"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Ownership structure</h3> </p>
+
+		<div>
+			<p class="toprow">Info is missing here</p>
+			<p class="bottomrow" style="min-height: 75px">This is probably relevant..</p>
+		</div>
+		<hr class="hline">
+
+		<!--------- Engagements --------->
+
+		<a id="Engagements"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 80px">Engagements</h3> </p>
+
+		{% for p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 in app_acc_engagements %}
+			<div>
+				<table class="center-table" style="width: 450px">	
+					<tr>
+						<td style="text-align: center; width: 450px; padding-top: 20px;"><b>{{ p1 }}</b></td>
+					</tr>
+					<tr style="width: 450px">
+						<td style="text-align: center; width: 450px; padding-top: 20px;">{{ p2 }}</td>
+					</tr>
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td style="padding-top: 20px;">{{ p3 }}</td>
+						<td style="padding-top: 20px;">{{ p4 }}</td>
+					</tr>
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td>{{ p5 }}</td>
+						<td style="text-align: right;">{{ p6 }}</td>
+					</tr>
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td>{{ p7 }}</td>
+						<td style="text-align: right;">{{ p8 }}</td>
+					</tr>
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td>{{ p9 }}</td>
+						<td style="text-align: right;">{{ p10 }}</td>
+					</tr>
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td>{{ p11 }}</td>
+						<td style="text-align: right;">{{ p12 }}</td>
+					</tr>
+				</table>
+				<br>
+				<br>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="tab-pane" id="ML" role="tabpanel" aria-labelledby="ML-tab">
+		<div class="container top-header fixed-top" style="margin-top:40px; padding-bottom:3px">
+			<div class="row align-items-center">
+				<div class="col text-center"> 
+					<h3 class="card-title font-weight-bold text-left mt-4 ml-5"> Analysis 
+				</h3> 
+				</div>
+			</div>
+		</div>
+
+		<br>
+	
+		<!--------- Machine Learning Algorithm --------->
+	
+		<a id="ML-outputs"></a>
+		<p> <h3 style="font-weight:bold; margin-top: 20px">Machine Learning results</h3> </p>
+		<p>
+			The Machine Learning algorithm developed by Innovation Norway has identified a number of <b>similar proposals</b> based on their text.
+		</p>
+		<p>
+			The table below summarises the information relevant to the similar proposals, including whether a decision was made to provide funding. 
+		</p>
+		<p>	
+			In order to facilitate comparison between the different proposals, an estimate of similarity is included which ranges from 0 to 1, with 1 indicating an exact match. A brief description of the business idea is also included. 
+		</p>
+		<div>
+			<table class="center-table" style="width: 850px; margin-top: 40px">
+				{% for proposal, name, text, similarity, outcome, area, innovation, category in round_ML_outputs %}
+					<tr style="border-bottom: 1px solid rgb(150, 150, 150); border-top: 1px solid rgb(150, 150, 150);">
+						<td style="text-align: center"><b>Proposal</b></td>
+						<!-- <td style="text-align: center"><b>Year</b></td> -->
+						<td style="text-align: center"><b>Title</b></td>
+						<td style="text-align: center"><b>Similarity score</b></td>
+						<td style="text-align: center"><b>Area</b></td>
+						<td style="text-align: center"><b>Innovation</b></td>
+						<td style="text-align: center"><b>Outcome</b></td>
+					</tr>	
+					<tr style="border-bottom: 1px solid rgba(222,222,222);">
+						<td style="text-align: center">{{ proposal }}</td>
+						<td style="text-align: center">{{ name }}</td>
+						<td style="text-align: center">{{ similarity }}</td>
+						<td style="text-align: center">{{ area }}</td>
+						<td style="text-align: center">{{ innovation }}</td>
+						<td style="text-align: center">{{ outcome }}</td>
+					</tr>
+					<tr  style="border-bottom: 1.5px solid rgba(175,175,175);">
+						<td></td>
+						<td colspan="5" style="text-align: justify; padding-bottom: 40px">{{ text }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<hr class="hline">
+	
+	</div>
+
+
+	<div class="tab-pane" id="part3" role="tabpanel" aria-labelledby="part3-tab">
+		<div class="container top-header fixed-top" style="margin-top:40px; padding-bottom:3px">
+		<div class="row align-items-center">
+			<div class="col text-center"> 
+				<h3 class="card-title font-weight-bold text-left mt-4 ml-5"> Consideration 
+			</h3> 
+			</div>
+		</div>
+		</div>
+		<!-- Tab navigation -->
+		<ul class="nav nav-tabs navbar-light bg-light fixed-top justify-content-center" id="considerationTab" role="tablist" style="margin-top:110px">
+			<li class="nav-item">
+			<a class="nav-link active" id="soker-tab" data-toggle="tab" href="#soker" role="tab" aria-controls="soker" onclick="topFunction()"> Søker</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" id="prosjekt-tab" data-toggle="tab" href="#prosjekt" role="tab" aria-controls="prosjekt" onclick="topFunction()">Prosjekt</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="vedtak-tab" data-toggle="tab" href="#vedtak" role="tab" aria-controls="vedtak" onclick="topFunction()">Vedtak</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="forhandsvisning-tab" data-toggle="tab" href="#forhandsvisning" role="tab" aria-controls="forhandsvisning" onclick="topFunction()">Forhåndsvisning</a>
+			</li>
+		</ul>
+		<br>
+		<br>
+		<br>
+
+	<div class="tab-content" id="secondTabContent" style="border: 1px solid #ddd; padding: 25px">
+
+		<!--------- Søker --------->
+		
+		<div class="tab-pane show active" id="soker" role="tabpanel" aria-labelledby="soker-tab">
+
+			<p> <h5 style="font-weight:bold; margin-top: 20px">Bedriftstørrelse</h5> </p>
+			<ul>
+			{% for choice in form.app_con_size %}
+				<li>{{ choice }}</li>
+			{% endfor %}
+			</ul>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Kommentaren eierskap</h5> </p>
+			<textarea class="bottomrow" name="app_con_owner_comment" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+			
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Habilitetssjekk</h5> </p>
+			<div>
+				<table class="center-table" style="width: 850px">
+					<tr style="border-bottom: 1px solid rgb(150, 150, 150); border-top: 1px solid rgb(150, 150, 150);">
+						<td style="text-align: center"><b>Navn</b></td>
+						<td style="text-align: center"><b>Rolle i firma</b></td>
+						<td style="text-align: center"><b>Rolle i IN</b></td>
+						<td style="text-align: center"><b>Tilhørighet i IN</b></td>
+					</tr>
+					{% for name, rolle_firm, rolle_in, check in app_con_habilitation %}
+						<tr style="border-bottom: 1px solid rgba(222,222,222);">
+							<td style="text-align: center">{{ name }}</td>
+							<td style="text-align: center">{{ rolle_firm }}</td>
+							<td style="text-align: center">{{ rolle_in }}</td>
+							<td style="text-align: center">{{ check }}</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Kommentarer ved habilitetskonflikt</h5> </p>
+			<textarea class="bottomrow" name="app_con_habilitation_conflict" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+		</div>
+
+		<!--------- Prosjekt --------->
+		
+		<div class="tab-pane" id="prosjekt" role="tabpanel" aria-labelledby="prosjekt-tab">
+			<a id="sda-structure"></a>
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Score nyhetsverdi</h5> </p>
+			<div>
+				<table class="center-table" style="width: 850px">
+					<tr>
+						<td style="vertical-align:top; padding-top:10px">
+							<ul>
+								{% for choice in form.app_con_score_innovative %}
+									<li>{{ choice }}</li>
+								{% endfor %}
+							</ul>
+						</td>
+						<td>
+							<textarea class="bottomrow" name="app_con_comment_innovative" style="min-height: 200px; min-width: 800px; border: 1px solid #ddd"></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Score vekstambisjoner</h5> </p>
+			<div>
+				<table class="center-table" style="width: 850px">
+					<tr>
+						<td style="vertical-align:top; padding-top:10px">
+							<ul>
+								{% for choice in form.app_con_score_prospects %}
+									<li>{{ choice }}</li>
+								{% endfor %}
+							</ul>
+						</td>
+						<td>
+							<textarea class="bottomrow" name="app_con_comment_prospects" style="min-height: 200px; min-width: 800px; border: 1px solid #ddd"></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Score gjennomføringsevne</h5> </p>
+			<div>
+				<table class="center-table" style="width: 850px">
+					<tr>
+						<td style="vertical-align:top; padding-top:10px">
+							<ul>
+								{% for choice in form.app_con_score_feasibility %}
+									<li>{{ choice }}</li>
+								{% endfor %}
+							</ul>
+						</td>
+						<td>
+							<textarea class="bottomrow" name="app_con_comment_feasibility" style="min-height: 200px; min-width: 800px; border: 1px solid #ddd"></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Bærekraft</h5> </p>
+			<textarea class="bottomrow" name="app_con_sustainability" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Andre kommentarer</h5> </p>
+			<textarea class="bottomrow" name="app_con_other_comments" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+
+			<br>
+			<br>
+			<br>
+			<div style="border: 1px solid #ddd; padding: 25px">
+				<p> <h5 style="font-weight:bold; padding-left:30px">Kjennetegn og statistikk</h5> </p>
+				<div style="display:block; width:100%;">
+					<div style="width:49%; display: inline-block; padding-left:20px; vertical-align:top;">
+						<p> <h6 style="font-weight:bold; margin-top: 20px">Kvinnerettet</h6> </p>
+						<ul>
+							<li>
+								<input type="radio" name="{{ app_con_field_women }}" value="no_choice" style="margin-right: 8px" onclick="hideDiv('women')">Ikke valgt
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_women }}" value="yes" style="margin-right: 8px" onclick="showDiv('women')">Ja
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_women }}" value="no" style="margin-right: 8px" onclick="hideDiv('women')">Nei
+							</li>
+							<li style="margin-top: 15px">
+								<div id="women"  style="display:none;" class="answer_list">
+									<ul>
+										<li style="margin-bottom:10px">{% formfield player.app_con_w_1 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_w_2 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_w_3 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_w_4 %}</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+
+						<p> <h6 style="font-weight:bold; margin-top: 30px;">Prosjektrisiko</h6> </p>
+                        {{ form.app_con_risk }}
+
+						<p> <h6 style="font-weight:bold; margin-top: 30px;">Driftsrisiko</h6> </p>
+                        {{ form.app_con_businessrisk }}
+						
+						<p> <h6 style="font-weight:bold; margin-top: 30px;">Innovasjonsnivå</h6> </p>
+                        {{ form.app_con_innovation }}
+                        
+
+						<p> <h6 style="font-weight:bold; margin-top: 30px;">Innovasjonstype</h6> </p>
+                        {{ form.app_con_innovation_type }}
+
+						<p> <h6 style="font-weight:bold; margin-top: 30px;">Sektor</h6> </p>
+						{{ form.app_con_sector }}
+		
+					</div>
+
+					<div style="width:49%; display: inline-block; padding-left:50px; vertical-align:top;">
+						<p> <h6 style="font-weight:bold; margin-top: 20px">Miljøeffekt</h6> </p>
+						<ul>
+							<li>
+								<input type="radio" name="{{ app_con_field_environment }}" value="no_choice" style="margin-right: 8px" onclick="hideDiv('environment')">Ikke valgt
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_environment }}" value="yes" style="margin-right: 8px" onclick="showDiv('environment')">Ja
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_environment }}" value="no" style="margin-right: 8px" onclick="hideDiv('environment')">Nei
+							</li>
+							<li style="margin-top: 15px">
+								<div id="environment"  style="display:none;" class="answer_list">
+									<ul>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_1 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_2 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_3 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_4 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_5 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_6 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_7 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_8 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_9 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_10 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_e_11 %}</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+
+						<p> <h6 style="font-weight:bold; margin-top: 20px">Samfunnseffekt</h6> </p>
+						<ul>
+							<li>
+								<input type="radio" name="{{ app_con_field_society }}" value="no_choice" style="margin-right: 8px" onclick="hideDiv('society')">Ikke valgt
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_society }}" value="yes" style="margin-right: 8px" onclick="showDiv('society')">Ja
+							</li>
+							<li>
+								<input type="radio" name="{{ app_con_field_society }}" value="no" style="margin-right: 8px" onclick="hideDiv('society')">Nei
+							</li>
+							<li style="margin-top: 15px">
+								<div id="society"  style="display:none;" class="answer_list">
+									<ul>
+										<li style="margin-bottom:10px">{% formfield player.app_con_s_1 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_s_2 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_s_3 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_s_4 %}</li>
+										<li style="margin-bottom:10px">{% formfield player.app_con_s_5 %}</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!--------- Vedtak --------->
+
+		<div class="tab-pane" id="vedtak" role="tabpanel" aria-labelledby="vedtak-tab">
+			<div>
+				<p class="toprow" >Kostnader</p>
+				<table style="width: 850px; margin-left: 60px">
+					<tr style="border-top: 1px solid rgba(222,222,222); border-bottom: 1px solid rgba(222,222,222);">
+					<td style="width: 400px"></td>
+					<td style="width: 150px"><b>Omsøkt (kr)</b></td>
+					<td style="width: 150px"><b>Foreslått (kr)</b></td>
+					<td style="width: 150px"><b>Godkjent (kr)</b></td>
+					</tr>
+					
+					<tr>
+						<td style="width: 400px">Brukerstudie</td>
+						<td style="width: 150px">{{ app_con_coststudy_requested }}</td>
+						<td style="width: 150px">{{ app_con_coststudy_suggested }}</td>
+						<td class="cost" style="width: 150px">{{ form.app_con_coststudy_offered }}</td>
+					</tr>
+				
+					<tr>
+						<td style="width: 400px">Utvikle minimumsløsning</td>
+						<td style="width: 150px">{{ app_con_costmws_requested }}</td>
+						<td style="width: 150px">{{ app_con_costmws_suggested }}</td>
+						<td class="cost" style="width: 150px">{{ form.app_con_costmws_offered }}</td>
+					</tr>
+				
+					<tr>
+						<td style="width: 400px">Nettverksbygging</td>
+						<td style="width: 150px">{{ app_con_costnetwork_requested }}</td>
+						<td style="width: 150px">{{ app_con_costnetwork_suggested }}</td>
+						<td class="cost" style="width: 150px">{{ form.app_con_costnetwork_offered }}</td>
+					</tr>
+				
+					<tr>
+						<td style="width: 400px">Styrking av kompetanse</td>
+						<td style="width: 150px">{{ app_con_costcomp_requested }}</td>
+						<td style="width: 150px">{{ app_con_costcomp_suggested }}</td>
+						<td class="cost" style="width: 150px">{{ form.app_con_costcomp_offered }}</td>
+					</tr>
+				
+					<tr>
+						<td style="width: 400px"><b>Sum kostnader</b></td>
+						<td style="width: 150px"><b>{{ app_con_totalcost_requested }}</b></td>
+						<td style="width: 150px"><b>{{ app_con_totalcost_suggested }}</b></td>
+						<td style="width: 150px"><b><input type="number" class="cost-total" name="total" min="0" style="background: transparent; border:none;"placeholder="0"></b></td>
+					</tr>
+				</table> 
+			</div>
+			<br>
+			<br>
+			<div>
+				<p class="toprow" >Finansieringsplan</p>
+				<table style="width: 850px; margin-left: 60px">
+					<tr style="border-top: 1px solid rgba(222,222,222); border-bottom: 1px solid rgba(222,222,222);">
+					<td style="width: 400px"></td>
+					<td style="width: 150px"><b>Foreslått (kr)</b></td>
+					<td style="width: 150px"><b>Godkjent (kr)</b></td>
+					<td style="width: 150px"><b>Andel (%)</b></td>
+					</tr>
+					
+					<tr>
+						<td style="width: 400px">Innovasjon Norge</td>
+						<td class="in-sugg" style="width: 150px">{{ app_con_INfund_suggested }}</td>
+						<td class="in-offer finoffer" style="width: 150px">{{ form.app_con_INfund_finoffered }}</td>
+						<td style="width: 150px"><input type="number" class="in-perc" name="in-perc" min="0.00" style="background: transparent; border:none;"placeholder="0"></td>
+					</tr>
+
+					<tr>
+						<td style="width: 400px">Annen finansiering</td>
+						<td class="af-sugg" style="width: 150px">{{ app_con_AFfund_suggested }}</td>
+						<td class="af-offer finoffer" style="width: 150px">{{ form.app_con_AFfund_finoffered }}</td>
+						<td style="width: 150px"><input type="number" class="af-perc" name="af-perc" min="0.00" style="background: transparent; border:none;"placeholder="0"></td>
+					</tr>
+
+					<tr>
+						<td style="width: 400px; padding-top:10px"><b>Sum finansiering</b></td>
+						<td style="width: 150px"><b>{{ app_con_fintotal_suggested }}</b></td>
+						<td style="width: 150px"><b><input type="number" class="fin-total" name="total" min="0" style="background: transparent; border:none; "placeholder="0"></b></td>
+						<td style="width: 150px"></td>
+					</tr>
+				</table> 
+			</div>
+
+			<p> <h5 style="font-weight:bold; margin-top: 60px">Begrunnelse for eventuell avkorting</h5> </p>
+			<textarea class="bottomrow" name="app_con_partial_funding" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+	
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Avslagsbegrunnelse (ved foreslått beløp 0)</h5> </p>
+			<textarea class="bottomrow" name="app_con_no_funding" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+	
+			<div>
+				<p> <h5 style="font-weight:bold; margin-top: 40px">Tidligere internkommentarer</h5> </p>
+				<p class="bottomrow" style="min-height: 150px; margin-left:-5px"> {{ app_con_internalcomms }} </p>
+			</div>
+			
+			<p> <h5 style="font-weight:bold; margin-top: 40px">Ny internkommentar</h5> </p>
+			<textarea class="bottomrow" name="app_con_internal_comment" style="min-height: 200px; min-width: 900px; border: 1px solid #ddd; margin-left: -5px"></textarea>
+
+		</div>
+
+		<!--------- Forhåndsvisning --------->
+		
+		<div class="tab-pane" id="forhandsvisning" role="tabpanel" aria-labelledby="forhandsvisning-tab">
+			<a id="a-structure"></a>
+			<p> <h5 style="font-weight:bold; margin-top: 20px">Denne siden er fjernet av hensyn til studien.</h5> </p>
+		</div>
+	</div>
+  </div>
+</div>
+
+{% endblock %}
+
+
