@@ -30,20 +30,19 @@ class Subsession(BaseSubsession):
     import random
     random.seed(42)
     def creating_session(subsession):
+        labels = ['participant1', 'participant2']
+        for p, label in zip(subsession.get_players(), labels):
+            p.participant.label = label
+            
         if subsession.round_number == 1:
-            # breakpoint()
             a_file = open("inputs/treatments.pkl", "rb")
             treatments = pickle.load(a_file)
             
             for i, p in enumerate(subsession.get_players()):
                 round_numbers = list(range(1, Constants.num_rounds+1))
                 random.shuffle(round_numbers)
-                print(round_numbers)
                 p.participant.vars['case_rounds'] = dict(zip(round_numbers, Constants.cases))
                 p.participant.vars['treatment'] = treatments[i+1]
-                
-                print(p.participant.vars['case_rounds'])
-                print(p.participant.vars['treatment'])
 
 class Group(BaseGroup):
     pass

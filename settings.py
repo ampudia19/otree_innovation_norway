@@ -6,7 +6,15 @@ SESSION_CONFIGS = [
        name='innovasjon_norge_experiment',
        display_name="Innovasjon Norge experiment",
        num_demo_participants=2,
-       app_sequence=['assessment']
+       app_sequence=['introduction', 'assessment']
+    ),
+]
+
+ROOMS = [
+    dict(
+       name='innovasjon_norge_experiment',
+       display_name="Innovasjon Norge experiment",
+       participant_label_file='_rooms/innovasjon_norge_experiment.txt',
     ),
 ]
 
