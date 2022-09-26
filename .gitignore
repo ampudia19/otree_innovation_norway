@@ -1,0 +1,7 @@
+/__pycache__
+/__temp_static_root
+/.38
+/.38linux
+db.sqlite3
+Procfile
+runtime.txt
