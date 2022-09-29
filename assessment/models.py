@@ -22,26 +22,31 @@ Your app description
 class Constants(BaseConstants):
     name_in_url = 'assessment'
     players_per_group = None
-    cases = ["A", "B"]#, "C", "D"] "E", "F", "G", "H"]
-    num_rounds = len(cases)
+    _CASES = [
+        "A", "B", "C", "D", "E", "F", "G", "H", 
+        "I", "J", "K", "L", "M", "N", "O", "P"
+    ]
+    _NUM_ROUNDS = len(_CASES)
+    num_rounds = _NUM_ROUNDS
 
+    with open("_rooms/innovasjon_norge_experiment.txt") as infile:
+        _LABELS = [line.rstrip("\n") for line in infile]
 
 class Subsession(BaseSubsession):
     import random
     random.seed(42)
     def creating_session(subsession):
-        labels = ['participant1', 'participant2']
-        for p, label in zip(subsession.get_players(), labels):
+        for p, label in zip(subsession.get_players(), Constants._LABELS):
             p.participant.label = label
             
         if subsession.round_number == 1:
-            a_file = open("inputs/treatments.pkl", "rb")
-            treatments = pickle.load(a_file)
+            with open("inputs/treatments.pkl", "rb") as infile:
+                treatments = pickle.load(infile)
             
             for i, p in enumerate(subsession.get_players()):
-                round_numbers = list(range(1, Constants.num_rounds+1))
+                round_numbers = list(range(1, Constants._NUM_ROUNDS+1))
                 random.shuffle(round_numbers)
-                p.participant.vars['case_rounds'] = dict(zip(round_numbers, Constants.cases))
+                p.participant.vars['case_rounds'] = dict(zip(round_numbers, Constants._CASES))
                 p.participant.vars['treatment'] = treatments[i+1]
 
 class Group(BaseGroup):
@@ -75,6 +80,7 @@ class Player(BasePlayer):
             ('average', _('Middels')),
             ('poor', _('Svak'))
         ],
+        blank=False,
         widget=widgets.RadioSelect
     )
 
@@ -89,6 +95,7 @@ class Player(BasePlayer):
             ('average', _('Middels')),
             ('poor', _('Svak'))
         ],
+        blank=False,
         widget=widgets.RadioSelect
     )
 
@@ -103,6 +110,7 @@ class Player(BasePlayer):
             ('average', _('Middels')),
             ('poor', _('Svak'))
         ],
+        blank=False,
         widget=widgets.RadioSelect
     )
 
@@ -127,6 +135,7 @@ class Player(BasePlayer):
             ('yes', _('Ja')),
             ('no', _('Nei'))
         ],
+        blank=True,
         widget=widgets.RadioSelect
     )
     
@@ -162,7 +171,8 @@ class Player(BasePlayer):
             (4, "4"),
             (5, "5"),
             (6, "6 - Høy")
-        ]
+        ],
+        blank=True
     )
 
     app_con_businessrisk = models.StringField(
@@ -172,7 +182,7 @@ class Player(BasePlayer):
             ("C", "C - Høy"),
             ("D", "D - Ekstra høy")
         ],
-
+        blank=True
     )
 
     app_con_innovation = models.StringField(
@@ -183,6 +193,7 @@ class Player(BasePlayer):
             ("international", "Innovasjon på internasjonalt nivå"),
             ("not_applies", "Ikke relevant")
         ],
+        blank=True
     )
 
     app_con_innovation_type = models.StringField(
@@ -192,6 +203,7 @@ class Player(BasePlayer):
             ("organisation", "Organisatorisk innovasjon"),
             ("market", "Markedsmessig innovasjon")
         ],
+        blank=True
     )
 
     app_con_sector = models.StringField(
@@ -205,6 +217,7 @@ class Player(BasePlayer):
             ("tourism", "Reiseliv"),
             ("not_listed", "Ikke satsingsområde")
         ],
+        blank=True
     )
 
     app_con_environment = models.StringField(
@@ -213,6 +226,7 @@ class Player(BasePlayer):
             ('yes', _('Ja')),
             ('no', _('Nei'))
         ],
+        blank=True,
         widget=widgets.RadioSelect
     )
 
@@ -288,6 +302,7 @@ class Player(BasePlayer):
             ('yes', _('Ja')),
             ('no', _('Nei'))
         ],
+        blank=True,
         widget=widgets.RadioSelect
     )
 
